@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'admin',
     'store',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,7 +76,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
         'NAME': 'd8akipg5la4tdo',
         'USER': 'wnoxfcjkbeoltz',
         'PASSWORD': '6a6aba8b3b8a18da65713ae6f4f15b38ba71560c7eb36fdd34f62bd6421247de',
