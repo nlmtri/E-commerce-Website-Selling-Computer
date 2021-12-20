@@ -27,10 +27,18 @@ class Product(models.Model):
 	Description = models.CharField(max_length=200)
 	Quantity = models.IntegerField()
 	UnitPrice = models.FloatField()
-	ImgPath = models.FloatField()
+	ImgPath = models.ImageField(max_length=500)
 
 	def __str__(self):
 		return self.ProductName
+
+	@property
+	def imageURL(self):
+		try:
+			url = self.ImgPath.url
+		except:
+			url = ''
+		return url
 
 class Order(models.Model):
 	CreatedDate = models.DateTimeField(auto_now_add=True)
