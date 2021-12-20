@@ -12,14 +12,14 @@ class User(models.Model):
 	Password = models.CharField(max_length=200)
 
 	def __str__(self):
-		return self.name
+		return self.FullName
 
 
 class Category(models.Model):
 	Name = models.CharField(max_length=200)
 
 	def __str__(self):
-		return self.name
+		return self.Name
 
 class Product(models.Model):
 	ProductName = models.CharField(max_length=200)
@@ -30,7 +30,7 @@ class Product(models.Model):
 	ImgPath = models.FloatField()
 
 	def __str__(self):
-		return self.name
+		return self.ProductName
 
 class Order(models.Model):
 	CreatedDate = models.DateTimeField(auto_now_add=True)
