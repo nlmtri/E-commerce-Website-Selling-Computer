@@ -28,12 +28,11 @@
 		    return cookieValue;
 		}
 		var csrftoken = getToken('csrftoken')
-	
 	</script>
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	  <a class="navbar-brand" href="{% url 'store' %}">Main</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
@@ -44,10 +43,19 @@
 	      <li class="nav-item active">
 	        <a class="nav-link" href="{% url 'store' %}">Store <span class="sr-only">(current)</span></a>
 	      </li>
-	 
+	      <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Category
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	        	{% for cate in category %}
+	          <a class="dropdown-item" href="/?id={{cate.id}}">{{cate.Name}}</a>
+	          {% endfor %}
+	        </div>
+	      </li>
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
-	     	<a onclick="$('#loginModal').modal('show');" class="btn btn-warning">Login</a>
+	     	<a id="ButtonLogin" onclick="$('#loginModal').modal('show');" class="btn btn-warning">Login</a>
 	     	
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
@@ -133,5 +141,16 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+	<script type="text/javascript">
+				logged = "{{request.user.is_authenticated}}";
+				if (logged == "True"){
+					$('#ButtonLogin').text("Hello {{request.user.username}}! Logout?")
+					$("#ButtonLogin").attr("onclick","logout()");
+				}
+				function logout(){
+					location.href="{% url 'logout' %}"
+				}
+	</script>
+	</script>
 </body>
 </html>

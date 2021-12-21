@@ -16,9 +16,16 @@ def store(request):
 	cartItems = data['cartItems']
 	cart = data['cart']
 	items = data['items']
+	categories = Category.objects.all()
 
-	products = Product.objects.all()
-	context = {'products':products, 'cartItems':cartItems}
+	if(request.GET.get('id')):
+		products = Product.objects.filter(Cate=request.GET.get('id'))
+		cate = Category.objects.get(id=request.GET.get('id'))
+		cateName = cate.Name
+	else:
+		products = Product.objects.all()
+		cateName = "All products"
+	context = {'products':products, 'cartItems':cartItems, 'category':categories, 'cateName':cateName}
 	return render(request, 'store/store.html', context)
 
 
@@ -125,4 +132,7 @@ def signupWeb(request):
     else:
         # Return an 'invalid login' error message.
         ...
-        
+
+def logoutWeb(request):
+	logout(request)
+	return HttpResponseRedirect('/')
