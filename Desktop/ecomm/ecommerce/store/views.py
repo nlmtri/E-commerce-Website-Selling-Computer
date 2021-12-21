@@ -138,9 +138,13 @@ def logoutWeb(request):
 	return HttpResponseRedirect('/')
 
 def productview(request):
+	data = cartData(request)
+
+	cartItems = data['cartItems']
+
 	categories = Category.objects.all()
 	productid = request.GET.get('id')
 	product = Product.objects.get(id=productid)
 
-	context = {'product':product,'categories':categories}
+	context = {'product':product, 'cartItems':cartItems, 'categories':categories}
 	return render(request, 'store/productview.html', context)
