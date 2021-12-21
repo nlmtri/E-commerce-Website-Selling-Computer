@@ -18,14 +18,14 @@ def store(request):
 	items = data['items']
 	categories = Category.objects.all()
 
-	if(request.GET.get('id')):
-		products = Product.objects.filter(Cate=request.GET.get('id'))
-		cate = Category.objects.get(id=request.GET.get('id'))
+	if(request.GET.get('cat')):
+		products = Product.objects.filter(Cate=request.GET.get('cat'))
+		cate = Category.objects.get(id=request.GET.get('cat'))
 		cateName = cate.Name
 	else:
 		products = Product.objects.all()
 		cateName = "All products"
-	context = {'products':products, 'cartItems':cartItems, 'category':categories, 'cateName':cateName}
+	context = {'products':products, 'cartItems':cartItems, 'categories':categories, 'cateName':cateName}
 	return render(request, 'store/store.html', context)
 
 
@@ -136,3 +136,11 @@ def signupWeb(request):
 def logoutWeb(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+def productview(request):
+	categories = Category.objects.all()
+	productid = request.GET.get('id')
+	product = Product.objects.get(id=productid)
+
+	context = {'product':product,'categories':categories}
+	return render(request, 'store/productview.html', context)
