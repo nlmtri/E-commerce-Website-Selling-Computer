@@ -6,7 +6,7 @@ class Customer(models.Model):
 	user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
 
 	def __str__(self):
-		return self.id
+		return str(self.id)
 
 
 class Category(models.Model):
@@ -47,14 +47,14 @@ class Order(models.Model):
 	Phone = models.CharField(max_length=200, blank=True)
 
 	def __str__(self):
-		return str(self.id)
+		return str(self.id) + " - " + str(self.Address) + " - " + str(self.Phone) + " - " + str(self.Total) + " - " + str(self.Status)
 
 class OrderDetail(models.Model):
 	ProductID = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
 	OrderID = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
 	Quantity = models.IntegerField()
 	def __str__(self):
-		return str(self.id)
+		return str(self.OrderID.id) + " - " + str(self.OrderID.Address) + " - " + str(self.OrderID.Phone) + " - " + str(self.ProductID.ProductName) + " - " + str(self.ProductID.UnitPrice)
 
 class Cart(models.Model):
 	CustomerID = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
