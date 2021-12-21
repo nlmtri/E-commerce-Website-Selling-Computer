@@ -7,7 +7,7 @@ def admin(request):
 
 def categories(request):
 	context = {'user':0}
-	return render(request, 'adminpage/category.html', context)
+	return render(request, 'adminpage/categories.html', context)
 
 def users(request):
 	context = {'user':0}
