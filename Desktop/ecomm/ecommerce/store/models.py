@@ -35,6 +35,8 @@ class Product(models.Model):
 		return url
 	def Price(self):
 		return self.UnitPrice
+	def CateName(self):
+		return self.Cate.Name
 
 class Order(models.Model):
 	CreatedDate = models.DateTimeField(auto_now_add=True)

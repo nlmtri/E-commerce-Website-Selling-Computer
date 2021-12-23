@@ -6,9 +6,10 @@
     <form method="POST">
       <div class="form-group">
         <label>Name</label>
-        <input name="username" class="form-control" value="{{cate.Name}}" >
+        <input name="name" class="form-control" value="{{cate.Name}}" >
       </div>
       <input type="hidden" name="id" value="{{cate.id}}">
+      <input type="hidden" name="action" value="{{action}}">
       {% csrf_token %}
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
