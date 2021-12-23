@@ -39,7 +39,12 @@ def users(request):
 		username = request.POST.get('username')
 		email = request.POST.get('email')
 		password = request.POST.get('password')
-
+		if(request.POST.get('id') == None): #Add -> id blank
+			user = User.objects.create_user(username,email, password)
+			user.save()
+			users = User.objects.all()
+			context = {'users':users}
+			return render(request, 'adminpage/users.html', context)
 		user = User.objects.get(id=userid)
 		if(len(password)>0):
 			user.set_password(password)
@@ -51,14 +56,18 @@ def users(request):
 		user.save()
 		context = {'user':user}
 		return render(request, 'adminpage/user-view.html', context)
-	if(request.GET.get('id')):
+	if(request.GET.get('action')=="edit"):
 		userid = request.GET.get('id')
 		user = User.objects.get(id=userid)
-		if(request.GET.get('action')=="edit"):
-			context = {'user':user}
-			return render(request, 'adminpage/user-view.html', context)
-		if(request.GET.get('action')=="delete"):
-			user.delete()
+		context = {'user':user}
+		return render(request, 'adminpage/user-view.html', context)
+	if(request.GET.get('action')=="add"):
+		context = {'user':0}
+		return render(request, 'adminpage/user-view.html', context)
+	if(request.GET.get('action')=="delete"):
+		userid = request.GET.get('id')
+		user = User.objects.get(id=userid)
+		user.delete()
 	users = User.objects.all()
 	context = {'users':users}
 	return render(request, 'adminpage/users.html', context)
