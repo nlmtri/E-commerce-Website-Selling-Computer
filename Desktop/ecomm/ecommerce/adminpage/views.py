@@ -144,45 +144,29 @@ def products(request):
 @staff_member_required
 def orders(request):
 	if(request.POST.get('action') == 'edit'):
-		proid = request.POST.get('id')
+		orderid = request.POST.get('id')
 		name = request.POST.get('name')
-		cateid = request.POST.get('cateid')
-		description = request.POST.get('description')
-		quantity = request.POST.get('quantity')
-		price = request.POST.get('price')
-		cateid = Category.objects.get(id=cateid)
-		pro = Product.objects.get(id=proid)
+		mail = request.POST.get('mail')
+		address = request.POST.get('address')
+		phone = request.POST.get('phone')
+		total = request.POST.get('total')
+		status = request.POST.get('status')
+		order = Order.objects.get(id=orderid)
+		order.FullName=name
+		order.Mail=mail
+		order.Address=address
+		order.Phone=phone
+		order.Total=total
+		order.Status=status
 
-		pro.ProductName=name
-		pro.Cate=cateid
-		pro.Description=description
-		pro.Quantity=quantity
-		pro.UnitPrice=price
-		try:
-			pro.ImgPath=request.FILES['img']
-		except:
-			...
-		pro.save()
-		categories = Category.objects.all()
-		context = {'pro':pro,'categories':categories,'action':'edit'}
+		order.save()
+		context = {'order':order,'action':'edit'}
 		return render(request, 'adminpage/order-view.html', context)
-	if(request.POST.get('action') == 'add'):
-		name = request.POST.get('name')
-		cateid = request.POST.get('cateid')
-		description = request.POST.get('description')
-		quantity = request.POST.get('quantity')
-		price = request.POST.get('price')
-		img = request.FILES['img']
-		cateid = Category.objects.get(id=cateid)
-		pro = Product(ProductName=name,Cate=cateid,Description=description,Quantity=quantity,UnitPrice=price,ImgPath=img)
-		pro.save()
-		products = Product.objects.all()
-		context = {'products':products}
-		return render(request, 'adminpage/orders.html', context)
 	if(request.GET.get('action') == 'edit'):
 		orderid = request.GET.get('id')
 		order = Order.objects.get(id=orderid)
-		context = {'order':order,'action':'edit'}
+		orderdetails = OrderDetail.objects.filter(OrderID=order)
+		context = {'order':order,'orderdetails':orderdetails,'action':'edit'}
 		return render(request, 'adminpage/order-view.html', context)
 	if(request.GET.get('action')=="delete"):
 		orderid = request.GET.get('id')

@@ -57,6 +57,12 @@ class OrderDetail(models.Model):
 	Quantity = models.IntegerField()
 	def __str__(self):
 		return str(self.OrderID.id) + " - " + str(self.OrderID.Address) + " - " + str(self.OrderID.Phone) + " - " + str(self.ProductID.ProductName) + " - " + str(self.ProductID.UnitPrice)
+	def Name(self):
+		return self.ProductID.ProductName
+	def Price(self):
+		return self.ProductID.UnitPrice
+	def IdProduct(self):
+		return self.ProductID.id
 
 class Cart(models.Model):
 	CustomerID = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
