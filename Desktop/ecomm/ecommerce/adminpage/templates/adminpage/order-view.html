@@ -1,37 +1,42 @@
 {% extends 'adminpage/admin.html' %}
 {% load static %}
 {% block content %}
-	<h3>Users management</h3>
-	<div class="container">
-		<div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Full name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Address</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                  <th>Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-              	{% for order in orders %}
-                <tr>
-                  <td>{{order.id}}</td>
-                  <td>{{order.FullName}}</td>
-                  <td>{{order.Mail}}</td>
-                  <td>{{order.Phone}}</td>
-                  <td>{{order.Address}}</td>
-                  <td>{{order.Total}}</td>
-                  <td>{{order.Status}}</td>
-                  <td><a href="?id={{order.id}}&action=edit" class="btn btn-info">Edit</a><a href="?id={{order.id}}&action=delete" class="btn btn-warning">Delete</a></td>
-                </tr>
-              	{% endfor %}
-              </tbody>
-            </table>
-        </div>
+  <h3>Order management</h3>
+  <div class="container">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Full name</label>
+        <input name="name" class="form-control" value="{{order.FullName}}" >
+      </div>
+      <div class="form-group">
+        <label>Mail</label>
+        <input name="mail" class="form-control" value="{{order.Mail}}" >
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input name="address" class="form-control" value="{{order.Address}}" >
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input name="phone" class="form-control" value="{{order.Phone}}" >
+      </div>
+      <div class="form-group">
+        <label>Total</label>
+        <input name="total" type="number" class="form-control" value="{{order.Total}}" >
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select class="form-control" name="cateid">
+            <option value="Submitted" {% if order.Status == 'Submitted' %} selected {% endif %}>Submitted</option>
+            <option value="Shipped" {% if order.Status == 'Shipped' %} selected {% endif %}>Shipped</option>
+            <option value="Delivered" {% if order.Status == 'Delivered' %} selected {% endif %}>Delivered</option>
+            <option value="Cancelled" {% if order.Status == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+        </select>
+      </div>
+      <input type="hidden" name="id" value="{{pro.id}}">
+      <input type="hidden" name="action" value="{{action}}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
     </div>
 {% endblock content %}

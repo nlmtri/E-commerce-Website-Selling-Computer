@@ -88,21 +88,41 @@ def users(request):
 @staff_member_required
 def products(request):
 	if(request.POST.get('action') == 'edit'):
-		cateid = request.POST.get('id')
+		proid = request.POST.get('id')
 		name = request.POST.get('name')
-		cate = Category.objects.get(id=cateid)
-		if(len(name)>0):
-			cate.Name = name
-		cate.save()
-		context = {'cate':cate,'action':'edit'}
-		return render(request, 'adminpage/category-view.html', context)
+		cateid = request.POST.get('cateid')
+		description = request.POST.get('description')
+		quantity = request.POST.get('quantity')
+		price = request.POST.get('price')
+		cateid = Category.objects.get(id=cateid)
+		pro = Product.objects.get(id=proid)
+
+		pro.ProductName=name
+		pro.Cate=cateid
+		pro.Description=description
+		pro.Quantity=quantity
+		pro.UnitPrice=price
+		try:
+			pro.ImgPath=request.FILES['img']
+		except:
+			...
+		pro.save()
+		categories = Category.objects.all()
+		context = {'pro':pro,'categories':categories,'action':'edit'}
+		return render(request, 'adminpage/product-view.html', context)
 	if(request.POST.get('action') == 'add'):
 		name = request.POST.get('name')
-		cate = Category(Name=name)
-		cate.save()
-		categories = Category.objects.all()
-		context = {'categories':categories}
-		return render(request, 'adminpage/categories.html', context)
+		cateid = request.POST.get('cateid')
+		description = request.POST.get('description')
+		quantity = request.POST.get('quantity')
+		price = request.POST.get('price')
+		img = request.FILES['img']
+		cateid = Category.objects.get(id=cateid)
+		pro = Product(ProductName=name,Cate=cateid,Description=description,Quantity=quantity,UnitPrice=price,ImgPath=img)
+		pro.save()
+		products = Product.objects.all()
+		context = {'products':products}
+		return render(request, 'adminpage/products.html', context)
 	if(request.GET.get('action') == 'edit'):
 		proid = request.GET.get('id')
 		pro = Product.objects.get(id=proid)
@@ -110,18 +130,64 @@ def products(request):
 		context = {'pro':pro,'categories':categories,'action':'edit'}
 		return render(request, 'adminpage/product-view.html', context)
 	if(request.GET.get('action') == 'add'):
-		context = {'cate':0,'action':'add'}
-		return render(request, 'adminpage/category-view.html', context)
+		categories = Category.objects.all()
+		context = {'pro':0,'categories':categories,'action':'add'}
+		return render(request, 'adminpage/product-view.html', context)
 	if(request.GET.get('action')=="delete"):
-		cateid = request.GET.get('id')
-		cate = Category.objects.get(id=cateid)
-		cate.delete()
+		proid = request.GET.get('id')
+		pro = Product.objects.get(id=proid)
+		pro.delete()
 	products = Product.objects.all()
 	context = {'products':products}
 	return render(request, 'adminpage/products.html', context)
 
 @staff_member_required
 def orders(request):
+	if(request.POST.get('action') == 'edit'):
+		proid = request.POST.get('id')
+		name = request.POST.get('name')
+		cateid = request.POST.get('cateid')
+		description = request.POST.get('description')
+		quantity = request.POST.get('quantity')
+		price = request.POST.get('price')
+		cateid = Category.objects.get(id=cateid)
+		pro = Product.objects.get(id=proid)
+
+		pro.ProductName=name
+		pro.Cate=cateid
+		pro.Description=description
+		pro.Quantity=quantity
+		pro.UnitPrice=price
+		try:
+			pro.ImgPath=request.FILES['img']
+		except:
+			...
+		pro.save()
+		categories = Category.objects.all()
+		context = {'pro':pro,'categories':categories,'action':'edit'}
+		return render(request, 'adminpage/order-view.html', context)
+	if(request.POST.get('action') == 'add'):
+		name = request.POST.get('name')
+		cateid = request.POST.get('cateid')
+		description = request.POST.get('description')
+		quantity = request.POST.get('quantity')
+		price = request.POST.get('price')
+		img = request.FILES['img']
+		cateid = Category.objects.get(id=cateid)
+		pro = Product(ProductName=name,Cate=cateid,Description=description,Quantity=quantity,UnitPrice=price,ImgPath=img)
+		pro.save()
+		products = Product.objects.all()
+		context = {'products':products}
+		return render(request, 'adminpage/orders.html', context)
+	if(request.GET.get('action') == 'edit'):
+		orderid = request.GET.get('id')
+		order = Order.objects.get(id=orderid)
+		context = {'order':order,'action':'edit'}
+		return render(request, 'adminpage/order-view.html', context)
+	if(request.GET.get('action')=="delete"):
+		orderid = request.GET.get('id')
+		order = Order.objects.get(id=orderid)
+		order.delete()
 	orders = Order.objects.all()
 	context = {'orders':orders}
 	return render(request, 'adminpage/orders.html', context)
