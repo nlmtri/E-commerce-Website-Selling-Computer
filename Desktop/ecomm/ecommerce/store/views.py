@@ -92,7 +92,7 @@ def processOrder(request):
 			orderdetail.save()
 			cart.delete()
 
-	return JsonResponse('Order submitted..', safe=False)
+	return render(request, 'store/order-success.html', context)
 
 
 def cartData(request):
